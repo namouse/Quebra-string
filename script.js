@@ -35,24 +35,51 @@ function parseJ16(hexRaw) {
 
     const tiposPacote = {
         "12": "Posição",
-        "16": "Alarme",
         "22": "Posição",
+        "32": "Posição",
+        "60": "Posição",
+        "16": "Alarme",
+        "26": "Alarme",
         "13": "Heartbeat",
-        "15": "ACK",
-        "1A": "Serial Livre",
-        "1B": "Identificação de Motorista"
+        "17": "Identificação de Motorista"
     };
 
     const tipoDescricao = tiposPacote[tipoPacote] || "Desconhecido";
+
+    if (tipoPacote === "12") {
+        return {
+            pacote: "x12 - Posição",
+            tipo: tipoDescricao,
+            observacao: "Pacote de alarme ainda não implementado",
+            raw: hexRaw
+        };
+    }
 
     if (tipoPacote === "22") {
         return parseJ16X22(hex, tipoDescricao);
     }
 
+    if (tipoPacote === "32") {
+        return {
+            pacote: "x32 - Posição",
+            tipo: tipoDescricao,
+            observacao: "Pacote de alarme ainda não implementado",
+            raw: hexRaw
+        };
+    }
+
+    if (tipoPacote === "60") {
+        return {
+            pacote: "x60 - Posição",
+            tipo: tipoDescricao,
+            observacao: "Pacote de alarme ainda não implementado",
+            raw: hexRaw
+        };
+    }
+
     if (tipoPacote === "16") {
         return {
-            protocolo: "J16",
-            pacote: "x16",
+            pacote: "x16 - Alarme",
             tipo: tipoDescricao,
             observacao: "Pacote de alarme ainda não implementado",
             raw: hexRaw
@@ -123,7 +150,7 @@ function parseJ16X22(hex, tipoDescricao) {
     const odometro = hexParaInt(hex.substr(idx, 8)) / 100;
 
     return {
-        protocolo: "J16",
+
         pacote: "x22",
         tipo: tipoDescricao,
         data_hora: dataHora,
@@ -131,7 +158,6 @@ function parseJ16X22(hex, tipoDescricao) {
         latitude,
         longitude,
         velocidade_kmh: velocidade,
-        curso,
         ignicao,
         modo_pacote: modoPacote,
         gps,
@@ -142,10 +168,36 @@ function parseJ16X22(hex, tipoDescricao) {
             lac,
             cell_id: cellId
         },
-        raw: hex
     };
 }
+/*
+function parseJ16X12(hex, tipoDescricao) {
+    return {
 
+        pacote: "x12",
+    
+    };
+
+}
+
+function parseJ16X32(hex, tipoDescricao) {
+    return {
+
+        pacote: "x32",
+    
+    };
+
+}
+
+function parseJ16X60(hex, tipoDescricao) {
+    return {
+
+        pacote: "x60",
+    
+    };
+
+}
+*/
 /* =======================
    FUNÇÕES AUXILIARES
 ======================= */
