@@ -11,10 +11,7 @@ function processar() {
     let resultado = {};
 
     switch (modelo) {
-        case "generico":
-            resultado = parseGenerico(entrada);
-            break;
-
+        
         case "j16":
             resultado = parseJ16(entrada);
             break;
@@ -24,19 +21,6 @@ function processar() {
     }
 
     saida.textContent = JSON.stringify(resultado, null, 2);
-}
-
-/* =======================
-   PARSER GENÉRICO
-======================= */
-function parseGenerico(entrada) {
-    const isHex = /^[0-9A-Fa-f\s]+$/.test(entrada);
-    return {
-        modelo: "Genérico",
-        tipo_detectado: isHex ? "HEX" : "ASCII",
-        tamanho: entrada.replace(/\s/g, "").length,
-        raw: entrada
-    };
 }
 
 /* =======================
